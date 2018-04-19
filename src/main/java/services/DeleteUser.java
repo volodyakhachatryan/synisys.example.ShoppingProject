@@ -1,6 +1,6 @@
 package services;
 
-import dao.DatabaseConnection;
+import dao.Dao;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,10 +12,20 @@ import java.io.IOException;
  * Created by volodya.khachatryan on 3/20/2018.
  */
 public class DeleteUser extends HttpServlet {
+    Dao dao;
+
+    @Override
+    public void init() throws ServletException {
+        this.dao = new Dao();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/workspace.jsp");
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
         System.out.println("DeleteUser servlet doPost()");
         String username = "";
@@ -24,15 +34,9 @@ public class DeleteUser extends HttpServlet {
         request.getSession().removeAttribute("username");
         request.getSession().removeAttribute("password");
 
+        dao.deleteUser(username);
 
-        DatabaseConnection.deleteUser(username);
-
-        request.getRequestDispatcher("/loginPage.jsp").forward(request, response);
-//        response.sendRedirect("/loginPage.jsp");
+        response.sendRedirect("/loginPage.jsp");
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
 }

@@ -12,6 +12,9 @@
         <sourceRoots />
       </configuration>
     </facet>
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -28,5 +31,6 @@
     <orderEntry type="library" name="mssql-jdbc-6.2.2.jre8" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.9-rc" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.servlet:jstl:1.2" level="project" />
+    <orderEntry type="library" name="Spring-4.3.16.RELEASE" level="project" />
   </component>
 </module>

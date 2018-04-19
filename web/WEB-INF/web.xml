@@ -7,9 +7,6 @@
         <welcome-file>welcomePage.jsp</welcome-file>
     </welcome-file-list>
 
-    <session-config>
-        <session-timeout>1</session-timeout>
-    </session-config>
 
     <servlet>
         <servlet-name>deleteUser</servlet-name>
@@ -56,13 +53,14 @@
         <url-pattern>/addNewItem</url-pattern>
     </servlet-mapping>
 
+
     <servlet>
-        <servlet-name>addItemToCart</servlet-name>
-        <servlet-class>services.AddItemToCart</servlet-class>
+        <servlet-name>saveShoppingCart</servlet-name>
+        <servlet-class>services.SaveShoppingCart</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>addItemToCart</servlet-name>
-        <url-pattern>/addItemToCart</url-pattern>
+        <servlet-name>saveShoppingCart</servlet-name>
+        <url-pattern>/saveShoppingCart</url-pattern>
     </servlet-mapping>
 
 

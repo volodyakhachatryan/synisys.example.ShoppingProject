@@ -1,11 +1,18 @@
 package models;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 
 /**
  * Created by volodya.khachatryan on 3/16/2018.
  */
+
+@Component
+@Scope(value = "session")
 public class User implements Serializable{
+    private int userId;
     private String firstName, lastName, username, password, role;
     private int age;
     private ShoppingCart shoppingCart;
@@ -14,14 +21,30 @@ public class User implements Serializable{
         return this.shoppingCart == null? new ShoppingCart(): this.shoppingCart;
     }
 
+    public User() {
+    }
 
-    public User(String firstName, String lastName, String username, String password, int age, String role) {
+    public User(int userId, String firstName, String lastName, String username, String password, int age, String role) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.age = age;
         this.role = role;
+    }
+
+    public User(String firstName, String lastName, String username, String password, String role, int age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.age = age;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getFirstName() {
@@ -67,6 +90,8 @@ public class User implements Serializable{
     public String getRole() {
         return role;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

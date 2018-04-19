@@ -1,6 +1,6 @@
 package services;
 
-import dao.DatabaseConnection;
+import dao.Dao;
 import models.User;
 
 import javax.servlet.ServletException;
@@ -11,6 +11,17 @@ import java.io.IOException;
  * Created by volodya.khachatryan on 3/20/2018.
  */
 public class RegisterUser extends HttpServlet {
+    Dao dao;
+
+    @Override
+    public void init() throws ServletException {
+        dao = new Dao();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.sendRedirect("/workspace.jsp");
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,13 +36,10 @@ public class RegisterUser extends HttpServlet {
                 age = Integer.parseInt(request.getParameter("age"));
             }
 
-            User user = new User(firstName, lastName, username, password, age, "user");
+            User user = new User(firstName, lastName, username, password, "user", age);
 
-            boolean isUserSaved = DatabaseConnection.saveUser(user);
+            boolean isUserSaved = dao.saveUser(user);
             if (isUserSaved) {
-//                HttpSession session = request.getSession(true);
-//                session.setAttribute("username", username);
-//                session.setAttribute("password", password);
 
                 Cookie cookieUser = new Cookie("user", username);
                 response.addCookie(cookieUser);
@@ -39,17 +47,14 @@ public class RegisterUser extends HttpServlet {
                 Cookie cookiePassword = new Cookie("password", password);
                 response.addCookie(cookiePassword);
 
-//                request.getRequestDispatcher("/loginPage.jsp").forward(request, response);
                 response.sendRedirect("/loginPage.jsp");
             } else {
-//                request.getRequestDispatcher("/registrationPage.jsp").forward(request, response);
+
                 response.sendRedirect("/registrationPage.jsp");
             }
         } else {
-//            request.getRequestDispatcher("/loginPage.jsp").forward(request, response);
+
             response.sendRedirect("/registrationPage.jsp");
         }
-
-
     }
 }

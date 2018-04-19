@@ -1,7 +1,7 @@
 package filters;
 
 
-import dao.DatabaseConnection;
+import dao.Dao;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -13,26 +13,19 @@ import java.util.Objects;
  * Created by volodya.khachatryan on 3/16/2018.
  */
 public class UserLoggedInFilter implements javax.servlet.Filter {
+    Dao dao;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        dao = new Dao();
+
     }
 
+    // checks whether the user is logged in. if not redirects him to the login page
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-//        String username = (String) request.getSession().getAttribute("username");
-//        String password = (String) request.getSession().getAttribute("password");
-//
-//        if (username == null || password == null) {
-//            response.sendRedirect("/loginPage.jsp");
-//        } else {
-//            if (DatabaseConnection.getUser(username, password) == null) {
-//                response.sendRedirect("/loginPage.jsp");
-//            }
-//        }
-
 
         String cookieUser = "";
         String cookiePassword = "";
@@ -48,7 +41,7 @@ public class UserLoggedInFilter implements javax.servlet.Filter {
         if (cookieUser.isEmpty() && cookiePassword.isEmpty()) {
             response.sendRedirect("/loginPage.jsp");
         } else {
-            if (DatabaseConnection.getUser(cookieUser, cookiePassword) == null) {
+            if (dao.getUser(cookieUser, cookiePassword) == null) {
                 response.sendRedirect("/loginPage.jsp");
             }
         }

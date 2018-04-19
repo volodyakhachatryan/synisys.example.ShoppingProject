@@ -1,7 +1,8 @@
 <%@ page import="models.User" %>
 <%@ page import="models.ShoppingCart" %>
 <%@ page import="models.Item" %>
-<%@ page import="java.util.Map" %><%--
+<%@ page import="java.util.Map" %>
+<%--
   Created by IntelliJ IDEA.
   User: volodya.khachatryan
   Date: 4/11/2018
@@ -15,15 +16,34 @@
 </head>
 <body>
 
+<jsp:useBean id="dao" class="dao.Dao"/>
+
+<div style="display: block; float: right">
+
+    <jsp:useBean id="connection" scope="application" class="dao.Dao"/>
+
+    <%
+        User user;
+        user = (User) request.getSession().getAttribute("userBean");
+        if (user != null) {
+            out.println(user.getFirstName() + " " + user.getLastName());
+        }
+    %>
+
+    <form action="signOut" method="post">
+        <input type="submit" value="Sign out">
+    </form>
+
+</div>
+
 <%
     ShoppingCart shoppingCart;
-    Map<Item, Integer> addItems;
+    Map<Item, Integer> addedItems;
 
-    User user = (User) session.getAttribute("userBean");
     if (user != null) {
-        shoppingCart = user.getShoppingCart();
-        addItems = shoppingCart.getAddedItems();
-        if (!addItems.isEmpty()) {
+        shoppingCart = dao.getShoppingCart(user.getUserId());
+        addedItems = shoppingCart.getAddedItems();
+        if (!addedItems.isEmpty()) {
 %>
 <table>
     <tr>
@@ -33,13 +53,13 @@
         <th>Count</th>
     </tr>
     <%
-        for (Map.Entry<Item, Integer> entry : addItems.entrySet()) {
+        for (Map.Entry<Item, Integer> entry : addedItems.entrySet()) {
     %>
     <tr>
-        <th><% out.print(entry.getKey().getItemName());%></th>
-        <th><% out.print(entry.getKey().getItemDescription());%></th>
-        <th><% out.print(entry.getKey().getItemPrice());%></th>
-        <th><% out.print(entry.getValue());%></th>
+        <td><% out.print(entry.getKey().getItemName());%></td>
+        <td><% out.print(entry.getKey().getItemDescription());%></td>
+        <td><% out.print(entry.getKey().getItemPrice());%></td>
+        <td><% out.print(entry.getValue());%></td>
     </tr>
     <%
             }

@@ -14,6 +14,7 @@ public class NoCacheFilter implements Filter {
 
     }
 
+    // prevents the page from being cached by the browser
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
